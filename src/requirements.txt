@@ -16,6 +16,8 @@ pytest-mock>=1.7.1, <2.0
 pytest~=7.2
 scikit-learn
 # Pin problematic traitlets release -  https://github.com/jupyter/notebook/issues/7048
+kedro[pandas.CSVDataSet, pandas.ExcelDataSet, pandas.ParquetDataSet]
+kedro-viz
 traitlets<5.10.0
 xgboost
 fastparquet
