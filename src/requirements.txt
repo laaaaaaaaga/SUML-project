@@ -24,4 +24,5 @@ xgboost
 fastapi
 uvicorn
 mlflow
+streamlit
 
