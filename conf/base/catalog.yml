@@ -56,3 +56,7 @@ model:
   type: pickle.PickleDataSet
   filepath: data/06_models/model.pkl
   backend: pickle
+
+metrics:
+  type: pandas.ParquetDataSet
+  filepath: data/08_reporting/metrics.pq

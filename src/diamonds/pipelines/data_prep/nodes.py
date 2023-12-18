@@ -8,6 +8,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from typing import Tuple
 from sklearn.model_selection import  train_test_split
 from xgboost import XGBRegressor
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     '''
     Removes index column from raw .csv datasets
@@ -103,3 +104,32 @@ def train_model(X_train_scaled: pd.DataFrame, y_train: pd.DataFrame) -> XGBRegre
     model = XGBRegressor()
     model.fit(X_train_scaled, y_train)
     return model
+
+def evaluate_model(X_train_scaled: pd.DataFrame, X_test_scaled: pd.DataFrame,
+                   y_train: pd.DataFrame, y_test: pd.DataFrame,
+                   model: XGBRegressor) -> pd.DataFrame:
+    '''
+    Creates a summary comparision of train and test metrics
+    Args:
+        X_train_scaled:
+        X_test_scaled:
+        y_train:
+        y_test:
+        model:
+
+    Returns: dataframe containing standard regression metrics for train and test datasets
+
+    '''
+    metrics = pd.DataFrame(index=['Train', 'Test'], columns=['MSE', 'R2_score', 'MAE'])
+    train_pred = model.predict(X_train_scaled)
+    test_pred = model.predict(X_test_scaled)
+
+    metrics.loc['Train', 'MSE'] = mean_squared_error(y_train, train_pred)
+    metrics.loc['Train', 'R2_score'] = r2_score(y_train, train_pred)
+    metrics.loc['Train', 'MAE'] = mean_absolute_error(y_train, train_pred)
+
+    metrics.loc['Test', 'MSE'] = mean_squared_error(y_test, test_pred)
+    metrics.loc['Test', 'R2_score'] = r2_score(y_test, test_pred)
+    metrics.loc['Test', 'MAE'] = mean_absolute_error(y_test, test_pred)
+
+    return metrics
