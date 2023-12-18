@@ -2,12 +2,39 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
-data1:
+diamonds:
   type: pandas.CSVDataSet
-  filepath: data/01_raw/data1.csv
-remove_index_node:
+  filepath: data/01_raw/diamonds.csv
+
+index_removed:
+  type: pandas.ParquetDataSet
+  filepath: data/02_intermediate/index_removed.pq
+
+outliers_removed:
+  type: pandas.ParquetDataSet
+  filepath: data/02_intermediate/outliers_removed.pq
+
+labels_encoded:
+  type: pandas.ParquetDataSet
+  filepath: data/03_primary/labels_encoded.pq
+
+label_encoder:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/label_encoder.pkl
+  backend: pickle
+
+X_train:
+  type: pandas.ParquetDataSet
+  filepath: data/04_feature/X_train.pq
+
+X_test:
+    type: pandas.ParquetDataSet
+    filepath: data/04_feature/X_test.pq
+
+y_train:
   type: pandas.CSVDataSet
-  filepath: data/02_intermediate/data2.csv
-onehot_node:
-  type: pandas.CSVDataSet
-  filepath: data/02_intermediate/onehot_node.csv
+  filepath: data/04_feature/y_train.csv
+
+y_test:
+    type: pandas.CSVDataSet
+    filepath: data/04_feature/y_test.csv
