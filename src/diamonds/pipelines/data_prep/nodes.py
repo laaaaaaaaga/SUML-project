@@ -9,6 +9,7 @@ from typing import Tuple
 from sklearn.model_selection import  train_test_split
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import matplotlib.pyplot  as plt
 def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     '''
     Removes index column from raw .csv datasets
@@ -133,3 +134,21 @@ def evaluate_model(X_train_scaled: pd.DataFrame, X_test_scaled: pd.DataFrame,
     metrics.loc['Test', 'MAE'] = mean_absolute_error(y_test, test_pred)
 
     return metrics
+
+def plot_metrics(metrics: pd.DataFrame):
+    '''
+    Plots metrics from the evalution node
+    Args:
+        metrics:
+
+    Returns:
+
+    '''
+    fig, ax = plt.subplots(figsize=(20, 15))
+    metrics[['MSE', 'R2_score', 'MAE']].plot(kind='bar', ax=ax, subplots=True, rot=0)
+    ax.set_ylabel('Values')
+    ax.set_title('Comparison of Train and Test Metrics')
+
+    plt.legend(title='Metrics')
+
+    return fig

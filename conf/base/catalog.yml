@@ -60,3 +60,7 @@ model:
 metrics:
   type: pandas.ParquetDataSet
   filepath: data/08_reporting/metrics.pq
+
+metrics_plot:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/metrics_plot.png
