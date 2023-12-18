@@ -3,7 +3,7 @@ This is a boilerplate pipeline 'data_prep'
 generated using Kedro 0.18.14
 """
 from kedro.pipeline import Pipeline, pipeline, node
-from .nodes import remove_index, remove_outliers, encode_labels, split_data
+from .nodes import remove_index, remove_outliers, encode_labels, split_data, standardize_train, standardize_test, train_model
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -25,4 +25,16 @@ def create_pipeline(**kwargs) -> Pipeline:
              inputs='labels_encoded',
              outputs=['X_train','X_test','y_train','y_test'],
              name='split_data_node'),
+        node(func=standardize_train,
+             inputs='X_train',
+             outputs=['X_train_scaled', 'scaler'],
+             name='standardize_train_node'),
+        node(func=standardize_test,
+             inputs=['X_test','scaler'],
+             outputs='X_test_scaled',
+             name='standardize_test_node'),
+        node(func=train_model,
+             inputs=['X_train_scaled', 'y_train'],
+             outputs='model',
+             name='train_model_node'),
     ])

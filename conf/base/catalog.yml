@@ -38,3 +38,21 @@ y_train:
 y_test:
     type: pandas.CSVDataSet
     filepath: data/04_feature/y_test.csv
+
+X_train_scaled:
+  type: pandas.ParquetDataSet
+  filepath: data/05_model_input/X_train_scaled.pq
+
+scaler:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/scaler.pkl
+  backend: pickle
+
+X_test_scaled:
+  type: pandas.ParquetDataSet
+  filepath: data/05_model_input/X_test_scaled.pq
+
+model:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/model.pkl
+  backend: pickle

@@ -4,9 +4,10 @@ generated using Kedro 0.18.14
 """
 
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from typing import Tuple
 from sklearn.model_selection import  train_test_split
+from xgboost import XGBRegressor
 def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     '''
     Removes index column from raw .csv datasets
@@ -68,7 +69,37 @@ def split_data(data: pd.DataFrame) -> Tuple:
     X_train, X_test, y_train, y_test = train_test_split(data, price, test_size=0.2, random_state=1)
 
     return X_train, X_test, y_train, y_test
-def standardize_train():
-    pass
-def standardize_test():
-    pass
+def standardize_train(X_train: pd.DataFrame) -> Tuple[pd.DataFrame, StandardScaler]:
+    '''
+    Performs scaling on training dataset using StandardScaler
+    Args:
+        X_train: input dataframe
+
+    Returns: standardized X_frame and the Scaler
+
+    '''
+    scaler = StandardScaler().fit(X_train)
+
+    X_train_scaled_array = scaler.transform(X_train)
+    X_train_scaled = pd.DataFrame(X_train_scaled_array, columns=X_train.columns)
+
+    return X_train_scaled, scaler
+def standardize_test(X_test: pd.DataFrame, scaler: StandardScaler) -> pd.DataFrame:
+    '''
+    Standardizes X_test using fitted earlier StandardScaler
+    Args:
+        X_test: input data
+        scaler: input StandardScaler
+
+    Returns: X_test_scaled - scaled test data
+
+    '''
+    X_test_scaled_array= scaler.transform(X_test)
+    X_test_scaled= pd.DataFrame(X_test_scaled_array, columns=X_test.columns)
+
+    return X_test_scaled
+
+def train_model(X_train_scaled: pd.DataFrame, y_train: pd.DataFrame) -> XGBRegressor:
+    model = XGBRegressor()
+    model.fit(X_train_scaled, y_train)
+    return model
