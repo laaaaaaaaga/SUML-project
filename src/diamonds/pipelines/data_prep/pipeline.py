@@ -17,30 +17,37 @@ def create_pipeline(**kwargs) -> Pipeline:
              inputs='index_removed',
              outputs='outliers_removed',
              name='remove_outliers_node'),
+
         node(func=encode_labels,
              inputs='outliers_removed',
              outputs=['labels_encoded','ordinal_encoder'],
              name='encode_labels_node'),
+
         node(func=split_data,
              inputs='labels_encoded',
              outputs=['X_train','X_test','y_train','y_test'],
              name='split_data_node'),
+
         node(func=standardize_train,
              inputs='X_train',
              outputs=['X_train_scaled', 'scaler'],
              name='standardize_train_node'),
+
         node(func=standardize_test,
              inputs=['X_test','scaler'],
              outputs='X_test_scaled',
              name='standardize_test_node'),
+
         node(func=train_model,
              inputs=['X_train_scaled', 'y_train'],
              outputs='model',
              name='train_model_node'),
+
         node(func=evaluate_model,
              inputs=['X_train_scaled', 'X_test_scaled','y_train','y_test','model'],
              outputs='metrics',
              name='evaluate_model_node'),
+
         node(func=plot_metrics,
              inputs='metrics',
              outputs='metrics_plot',

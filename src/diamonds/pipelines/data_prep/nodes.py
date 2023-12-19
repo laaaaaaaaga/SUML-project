@@ -41,8 +41,6 @@ def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
         data = data[cond]
 
     return data
-
-
 def encode_labels(data: pd.DataFrame) -> Tuple[pd.DataFrame, OrdinalEncoder]:
     '''
     Encodes categorical features with LabelEncoder
