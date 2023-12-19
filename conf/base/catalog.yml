@@ -18,9 +18,9 @@ labels_encoded:
   type: pandas.ParquetDataSet
   filepath: data/03_primary/labels_encoded.pq
 
-label_encoder:
+ordinal_encoder:
   type: pickle.PickleDataSet
-  filepath: data/06_models/label_encoder.pkl
+  filepath: data/06_models/ordinal_encoder.pkl
   backend: pickle
 
 X_train:

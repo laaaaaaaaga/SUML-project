@@ -4,7 +4,7 @@ generated using Kedro 0.18.14
 """
 
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 from typing import Tuple
 from sklearn.model_selection import  train_test_split
 from xgboost import XGBRegressor
@@ -43,7 +43,7 @@ def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
     return data
 
 
-def encode_labels(data: pd.DataFrame) -> Tuple[pd.DataFrame, LabelEncoder]:
+def encode_labels(data: pd.DataFrame) -> Tuple[pd.DataFrame, OrdinalEncoder]:
     '''
     Encodes categorical features with LabelEncoder
     Args:
@@ -53,9 +53,8 @@ def encode_labels(data: pd.DataFrame) -> Tuple[pd.DataFrame, LabelEncoder]:
 
     '''
     cat_col_names = data.select_dtypes(include=['object']).columns.tolist()
-    encoder = LabelEncoder()
-    for col in cat_col_names:
-        data[col] = encoder.fit_transform(data[col])
+    encoder = OrdinalEncoder()
+    data[cat_col_names] = encoder.fit_transform(data[cat_col_names])
     return data, encoder
 
 def split_data(data: pd.DataFrame) -> Tuple:
@@ -77,7 +76,7 @@ def standardize_train(X_train: pd.DataFrame) -> Tuple[pd.DataFrame, StandardScal
     Args:
         X_train: input dataframe
 
-    Returns: standardized X_frame and the Scaler
+    Returns: standardized X_train and the Scaler
 
     '''
     scaler = StandardScaler().fit(X_train)

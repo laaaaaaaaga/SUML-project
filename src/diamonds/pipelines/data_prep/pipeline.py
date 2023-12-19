@@ -19,7 +19,7 @@ def create_pipeline(**kwargs) -> Pipeline:
              name='remove_outliers_node'),
         node(func=encode_labels,
              inputs='outliers_removed',
-             outputs=['labels_encoded','label_encoder'],
+             outputs=['labels_encoded','ordinal_encoder'],
              name='encode_labels_node'),
         node(func=split_data,
              inputs='labels_encoded',
