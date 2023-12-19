@@ -25,4 +25,5 @@ fastapi
 uvicorn
 mlflow
 streamlit
+seaborn
 

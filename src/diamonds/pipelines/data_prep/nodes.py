@@ -9,7 +9,8 @@ from typing import Tuple
 from sklearn.model_selection import  train_test_split
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-import matplotlib.pyplot  as plt
+import matplotlib.pyplot as plt
+
 def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     '''
     Removes index column from raw .csv datasets
@@ -19,7 +20,7 @@ def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     Returns: dataset without an index column
 
     '''
-    data = data.reset_index(drop=True)
+
     data = data.iloc[:, 1:]
     return data
 
@@ -32,6 +33,7 @@ def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
     Returns: dataset without outliers
 
     '''
+
     num_cols = ['x','y','z','depth','carat']
     for col_name in num_cols:
         q1 = data[col_name].quantile(0.25)
