@@ -1,4 +1,4 @@
-black~=22.0
+black!=22.0
 flake8>=3.7.9, <5.0
 ipython>=7.31.1, <8.0; python_version < '3.8'
 ipython~=8.10; python_version >= '3.8'
@@ -18,12 +18,7 @@ kedro-datasets
 kedro-viz
 traitlets<5.10.0
 fastparquet
-pandas
-scikit-learn
-xgboost
-fastapi
-uvicorn
-mlflow
 streamlit
 seaborn
-
+mlflow
+autogluon

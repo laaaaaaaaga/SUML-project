@@ -14,6 +14,12 @@ outliers_removed:
   type: pandas.ParquetDataSet
   filepath: data/02_intermediate/outliers_removed.pq
 
+outlier_table:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/outlier_table.csv
+  save_args:
+    index: True
+
 labels_encoded:
   type: pandas.ParquetDataSet
   filepath: data/03_primary/labels_encoded.pq
@@ -57,10 +63,23 @@ model:
   filepath: data/06_models/model.pkl
   backend: pickle
 
+autogtluon:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/autogtluon.pkl
+  backend: pickle
+
 metrics:
   type: pandas.ParquetDataSet
   filepath: data/08_reporting/metrics.pq
 
+metrics_autogluon:
+  type: pandas.ParquetDataSet
+  filepath: data/08_reporting/metrics_autogluon.pq
+
 metrics_plot:
   type: matplotlib.MatplotlibWriter
   filepath: data/08_reporting/metrics_plot.png
+
+metrics_plot_autogluon:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/metrics_plot_autogluon.png

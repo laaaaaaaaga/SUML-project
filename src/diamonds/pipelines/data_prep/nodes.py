@@ -10,7 +10,7 @@ from sklearn.model_selection import  train_test_split
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import matplotlib.pyplot as plt
-
+from autogluon.tabular import TabularPredictor, TabularDataset
 def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     '''
     Removes index column from raw .csv datasets
@@ -24,7 +24,7 @@ def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     data = data.iloc[:, 1:]
     return data
 
-def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
+def remove_outliers(data: pd.DataFrame) -> Tuple[pd.DataFrame,pd.DataFrame]:
     '''
     Removes outlier records for selected numerical columns
     Args:
@@ -35,14 +35,20 @@ def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
     '''
 
     num_cols = ['x','y','z','depth','carat']
+    outlier_table = pd.DataFrame(index=num_cols, columns=['low','high'])
     for col_name in num_cols:
         q1 = data[col_name].quantile(0.25)
         q3 = data[col_name].quantile(0.75)
         iqr = q3 - q1
-        cond = (data[col_name] <= q3 + 1.5 * iqr) & (data[col_name] >= q1 - 1.5 * iqr)
+        high = q3 + 1.5 * iqr
+        low = q1 - 1.5 * iqr
+        cond = (data[col_name] <= high) & (data[col_name] >= low)
         data = data[cond]
 
-    return data
+        outlier_table.loc[col_name, "low"] = low
+        outlier_table.loc[col_name, "high"] = high
+
+    return data, outlier_table
 def encode_labels(data: pd.DataFrame) -> Tuple[pd.DataFrame, OrdinalEncoder]:
     '''
     Encodes categorical features with LabelEncoder
@@ -101,9 +107,33 @@ def standardize_test(X_test: pd.DataFrame, scaler: StandardScaler) -> pd.DataFra
     return X_test_scaled
 
 def train_model(X_train_scaled: pd.DataFrame, y_train: pd.DataFrame) -> XGBRegressor:
-    model = XGBRegressor()
+    '''
+    Train an XGBRegressor model
+    Args:
+        X_train_scaled:
+        y_train:
+
+    Returns:
+
+    '''
+    model = XGBRegressor(random_state=1)
     model.fit(X_train_scaled, y_train)
     return model
+
+def train_autogluon(X_train: pd.DataFrame, y_train: pd.DataFrame) -> TabularPredictor:
+    '''
+    Train a TabularPredictor
+    Args:
+        X_train_scaled:
+        y_train:
+
+    Returns:
+    '''
+    train_data = pd.concat([X_train, y_train],axis=1).reset_index(drop=True)
+    train_data = TabularDataset(train_data)
+    predictor = TabularPredictor(label="price").fit(train_data)
+
+    return predictor
 
 def evaluate_model(X_train_scaled: pd.DataFrame, X_test_scaled: pd.DataFrame,
                    y_train: pd.DataFrame, y_test: pd.DataFrame,
@@ -134,7 +164,60 @@ def evaluate_model(X_train_scaled: pd.DataFrame, X_test_scaled: pd.DataFrame,
 
     return metrics
 
+def evaluate_autogluon(X_train_scaled: pd.DataFrame, X_test_scaled: pd.DataFrame,
+                   y_train: pd.DataFrame, y_test: pd.DataFrame,
+                   predictor: TabularPredictor) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    '''
+
+    Args:
+        X_train_scaled:
+        X_test_scaled:
+        y_train:
+        y_test:
+        predictor:
+
+    Returns:
+
+    '''
+    metrics = pd.DataFrame(index=['Train', 'Test'], columns=['MSE', 'R2_score', 'MAE'])
+
+    #train_data = pd.concat([X_train_scaled, y_train], axis=1).reset_index(drop=True)
+    train_data = TabularDataset(X_train_scaled)
+    #print(train_data)
+    #test_data = pd.concat([X_test_scaled, y_test], axis=1).reset_index(drop=True)
+    test_data = TabularDataset(X_test_scaled)
+
+    train_pred = predictor.predict(train_data)
+    test_pred = predictor.predict(test_data)
+
+    metrics.loc['Train', 'MSE'] = mean_squared_error(y_train, train_pred)
+    metrics.loc['Train', 'R2_score'] = r2_score(y_train, train_pred)
+    metrics.loc['Train', 'MAE'] = mean_absolute_error(y_train, train_pred)
+
+    metrics.loc['Test', 'MSE'] = mean_squared_error(y_test, test_pred)
+    metrics.loc['Test', 'R2_score'] = r2_score(y_test, test_pred)
+    metrics.loc['Test', 'MAE'] = mean_absolute_error(y_test, test_pred)
+    return metrics
+
 def plot_metrics(metrics: pd.DataFrame):
+    '''
+    Plots metrics from the evalution node
+    Args:
+        metrics:
+
+    Returns:
+
+    '''
+    fig, ax = plt.subplots(figsize=(20, 15))
+    metrics[['MSE', 'R2_score', 'MAE']].plot(kind='bar', ax=ax, subplots=True, rot=0)
+    ax.set_ylabel('Values')
+    ax.set_title('Comparison of Train and Test Metrics')
+
+    plt.legend(title='Metrics')
+
+    return fig
+
+def plot_metrics_autogluon(metrics: pd.DataFrame):
     '''
     Plots metrics from the evalution node
     Args:
