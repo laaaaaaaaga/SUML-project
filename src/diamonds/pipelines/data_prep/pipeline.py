@@ -5,7 +5,7 @@ generated using Kedro 0.18.14
 # ag test
 from kedro.pipeline import Pipeline, pipeline, node
 from .nodes import remove_index, remove_outliers, encode_labels, split_data, standardize_train
-from .nodes import standardize_test, train_model, evaluate_model,plot_metrics, train_autogluon,evaluate_autogluon, plot_metrics_autogluon
+from .nodes import standardize_test, train_autogluon,evaluate_autogluon, plot_metrics_autogluon
 import seaborn
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -40,27 +40,18 @@ def create_pipeline(**kwargs) -> Pipeline:
              outputs='X_test_scaled',
              name='standardize_test_node'),
 
-        node(func=train_model,
-             inputs=['X_train_scaled', 'y_train'],
-             outputs='model',
-             name='train_model_node'),
+
         node(func=train_autogluon,
              inputs=['X_train_scaled', 'y_train'],
              outputs='autogluon',
              name='train_autogluon_node'),
 
-        node(func=evaluate_model,
-             inputs=['X_train_scaled', 'X_test_scaled','y_train','y_test','model'],
-             outputs='metrics',
-             name='evaluate_model_node'),
+
         node(func=evaluate_autogluon,
              inputs=['X_train_scaled', 'X_test_scaled', 'y_train', 'y_test', 'autogluon'],
              outputs='metrics_autogluon',
              name='evaluate_autogluon_node'),
-        node(func=plot_metrics,
-             inputs='metrics',
-             outputs='metrics_plot',
-             name='plot_metrics_node'),
+
         node(func=plot_metrics_autogluon,
              inputs='metrics_autogluon',
              outputs='metrics_plot_autogluon',

@@ -63,9 +63,9 @@ model:
   filepath: data/06_models/model.pkl
   backend: pickle
 
-autogtluon:
+autogluon:
   type: pickle.PickleDataSet
-  filepath: data/06_models/autogtluon.pkl
+  filepath: data/06_models/autogluon.pkl
   backend: pickle
 
 metrics:
