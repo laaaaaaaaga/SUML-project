@@ -5,8 +5,8 @@ generated using Kedro 0.18.14
 # ag test
 from kedro.pipeline import Pipeline, pipeline, node
 from .nodes import remove_index, remove_outliers, encode_labels, split_data, standardize_train
-from .nodes import standardize_test, train_autogluon,evaluate_autogluon, plot_metrics_autogluon
-import seaborn
+from .nodes import standardize_test, train_autogluon, evaluate_autogluon, plot_metrics_autogluon
+
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline([
@@ -17,17 +17,17 @@ def create_pipeline(**kwargs) -> Pipeline:
 
         node(func=remove_outliers,
              inputs='index_removed',
-             outputs=['outliers_removed','outlier_table'],
+             outputs=['outliers_removed', 'outlier_table'],
              name='remove_outliers_node'),
 
         node(func=encode_labels,
              inputs='outliers_removed',
-             outputs=['labels_encoded','ordinal_encoder'],
+             outputs=['labels_encoded', 'ordinal_encoder'],
              name='encode_labels_node'),
 
         node(func=split_data,
              inputs='labels_encoded',
-             outputs=['X_train','X_test','y_train','y_test'],
+             outputs=['X_train', 'X_test', 'y_train', 'y_test'],
              name='split_data_node'),
 
         node(func=standardize_train,
@@ -36,16 +36,14 @@ def create_pipeline(**kwargs) -> Pipeline:
              name='standardize_train_node'),
 
         node(func=standardize_test,
-             inputs=['X_test','scaler'],
+             inputs=['X_test', 'scaler'],
              outputs='X_test_scaled',
              name='standardize_test_node'),
-
 
         node(func=train_autogluon,
              inputs=['X_train_scaled', 'y_train'],
              outputs='autogluon',
              name='train_autogluon_node'),
-
 
         node(func=evaluate_autogluon,
              inputs=['X_train_scaled', 'X_test_scaled', 'y_train', 'y_test', 'autogluon'],
