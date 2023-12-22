@@ -21,7 +21,6 @@ traitlets<5.10.0
 fastparquet
 streamlit
 seaborn
-mlflow
 autogluon
 black
 jupyter-black
