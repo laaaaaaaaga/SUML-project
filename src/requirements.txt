@@ -16,6 +16,7 @@ pytest~=7.2
 kedro
 kedro-datasets
 kedro-viz
+kedro-fast-api
 traitlets<5.10.0
 fastparquet
 streamlit

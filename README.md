@@ -1,5 +1,17 @@
 # diamonds
 
+# FAST API DEVELOPMENT
+To quickly reload FastAPI changes, use:
+```shell
+kedro run --pipeline api_pipeline
+```
+and then:
+```shell
+kedro fast-api run
+```
+
+I will probably use kedro-docker to containerize this project and put it on GCloud.
+
 ## Overview
 
 This is your new Kedro project, which was generated using `kedro 0.18.14`.
