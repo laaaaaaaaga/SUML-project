@@ -4,7 +4,6 @@ from kedro.framework.project import settings
 
 
 class MLPredictor:
-
     def __init__(self, model, ordinal_encoder, scaler):
         self.model = model
         self.ordinal_encoder = ordinal_encoder
@@ -18,7 +17,8 @@ class MLPredictor:
         df_args_encoded = api_data
         # df_args_encoded[conf_loader["categorical_columns"]] = self.ordinal_encoder.transform(api_data[conf_loader["categorical_columns"]])
         df_args_encoded[["cut", "color", "clarity"]] = self.ordinal_encoder.transform(
-            api_data[["cut", "color", "clarity"]])
+            api_data[["cut", "color", "clarity"]]
+        )
         return df_args_encoded
 
     def scale_data(self, api_data: pd.DataFrame):

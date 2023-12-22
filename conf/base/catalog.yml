@@ -6,6 +6,9 @@ diamonds:
   type: pandas.CSVDataSet
   filepath: data/01_raw/diamonds.csv
 
+cut_changed:
+  type: pandas.ParquetDataSet
+  filepath: data/02_intermediate/cut_changed.pq
 index_removed:
   type: pandas.ParquetDataSet
   filepath: data/02_intermediate/index_removed.pq

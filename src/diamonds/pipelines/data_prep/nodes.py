@@ -23,6 +23,19 @@ def remove_index(data: pd.DataFrame) -> pd.DataFrame:
     return data
 
 
+def change_cut(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Changes the "Very Good" cut into "Very_Good" to avoid confilcts with FastAPI yaml
+    Args:
+        data:
+
+    Returns:
+
+    """
+    data.cut = data.cut.where(data.cut != "Very Good", "Very_Good")
+    return data
+
+
 def remove_outliers(data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Removes outlier records for selected numerical columns

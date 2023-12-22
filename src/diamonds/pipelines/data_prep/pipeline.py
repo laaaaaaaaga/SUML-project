@@ -6,6 +6,7 @@ generated using Kedro 0.18.14
 from kedro.pipeline import Pipeline, pipeline, node
 from .nodes import (
     remove_index,
+    change_cut,
     remove_outliers,
     encode_labels,
     split_data,
@@ -24,8 +25,14 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="remove_index_node",
             ),
             node(
-                func=remove_outliers,
+                func=change_cut,
                 inputs="index_removed",
+                outputs="cut_changed",
+                name="change_cut_node",
+            ),
+            node(
+                func=remove_outliers,
+                inputs="cut_changed",
                 outputs=["outliers_removed", "outlier_table"],
                 name="remove_outliers_node",
             ),
