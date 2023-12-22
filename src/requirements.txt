@@ -22,3 +22,5 @@ streamlit
 seaborn
 mlflow
 autogluon
+black
+jupyter-black
