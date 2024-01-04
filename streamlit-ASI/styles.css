@@ -1,0 +1,63 @@
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://images.unsplash.com/photo-1552332271-bf8afb3d4596?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+}
+
+[data-testid="stVerticalBlock"] {
+    background-color: rgba(18, 61, 61, 0.2);
+    padding: 10px;
+    margin-bottom: 50px;
+    border-radius: 30px;
+}
+
+div.diamond-info {
+    box-shadow: 5px 5px 5px white;
+    padding: 10px;
+    color: white;
+}
+
+div.input-section {
+    background-color: white;
+}
+
+div.diamond-result {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+div.stSlider > div[data-baseweb="slider"] > div[data-testid="stTickBar"] > div {
+    background: rgb(1, 183, 158, 0) !important;
+}
+
+div.stSlider > div[data-baseweb="slider"] > div > div > div[role="slider"] {
+    background-color: white !important;
+    box-shadow: rgb(14 38 74 / 20%) 0px 0px 0px 0.2rem;
+}
+
+div.stSlider > div[data-baseweb="slider"] > div > div > div > div {
+    color: white !important;
+}
+
+div.stSlider > div[data-baseweb="slider"] > div > div {
+    background: rgb(132, 206, 238) !important;
+}
+
+div.stSelectbox:first-of-type > div[data-baseweb="select"] > div {
+    border-color: rgb(132, 206, 238) !important;
+}
+
+div.stButton button {
+    border-color: rgb(132, 206, 238) !important;
+    background-color: rgb(29, 29, 29) !important;
+    color: white !important;
+}
+
+div.stButton button:hover {
+    background-color: rgb(40, 40, 40) !important;
+}
