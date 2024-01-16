@@ -1,6 +1,4 @@
 import pandas as pd
-from kedro.config import OmegaConfigLoader
-from kedro.framework.project import settings
 
 
 class MLPredictor:
@@ -10,12 +8,7 @@ class MLPredictor:
         self.scaler = scaler
 
     def encode_labels(self, api_data: pd.DataFrame):
-        # TODO: Fix this, for now importing "app" breaks the pipeline (ModuleNotFoundError: No module named 'app')
-        # conf_path = str(project_path / settings.CONF_SOURCE)
-        # conf_loader = OmegaConfigLoader(conf_source=conf_path)
-
         df_args_encoded = api_data
-        # df_args_encoded[conf_loader["categorical_columns"]] = self.ordinal_encoder.transform(api_data[conf_loader["categorical_columns"]])
         df_args_encoded[["cut", "color", "clarity"]] = self.ordinal_encoder.transform(
             api_data[["cut", "color", "clarity"]]
         )

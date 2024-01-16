@@ -1,4 +1,5 @@
 # diamonds
+Remember to create a /conf/local directory
 
 # FAST API DEVELOPMENT
 To quickly reload FastAPI changes, use:

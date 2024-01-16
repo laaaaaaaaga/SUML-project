@@ -8,12 +8,9 @@ Dockerfile
 # ignore potentially sensitive credentials files
 conf/**/*credentials*
 
-# ignore all local configuration
-conf/local
-!conf/local/.gitkeep
-
 # ignore everything in the following folders
 data
+!data/09_predictor
 logs
 notebooks
 references

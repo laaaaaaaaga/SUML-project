@@ -1,31 +1,16 @@
 # API information
-title: 'FastAPI'
+title: 'Diamonds API'
 description: >
-  ChimichangApp API helps you do awesome stuff. 🚀
-
-  ## Items
-
-  You can **read items**.
-
-  ## Users
-
-  You will be able to:
-
-  * **Create users** (_not implemented_).
-  * **Read users** (_not implemented_).
+  This is our API to predict diamond prices based on their parameters.
 version: '0.1.0'
 
 # Declare all tags
 tags:
-  users:
-    description: "Operations with users. The **login** logic is also here."
-  items:
-    description: "Manage items. So _fancy_ they have their own docs."
+  diamonds:
+    description: "Enter the parameters of the diamond to predict its price."
 
 routes:
-  # A route is the “name” you use to access endpoints, used in the URL:
-  # www.some_api.com/my_model/
-  my_model:
+  diamond_price:
     # Catalog reference to .pickle model
     predictor: MLPredictor
     # allowed types int, float, str, bool and enum
@@ -33,7 +18,7 @@ routes:
     # make sure to declare in the same order as your model needs.
 
     # Declare route tags
-    tags: ['users']
+    tags: ['diamonds']
 
     parameters:
       carat:
