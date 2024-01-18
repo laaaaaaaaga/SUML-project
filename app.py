@@ -2,6 +2,7 @@ import streamlit as st
 from urllib.parse import urlencode
 import requests
 
+
 class DiamondPricePredictor:
     def __init__(self, model_endpoint):
         self.model_endpoint = model_endpoint
@@ -32,12 +33,13 @@ class DiamondPricePredictor:
     def predict_price(self, diamond_data):
         url_params = urlencode(diamond_data)
         response = requests.get(f"{self.model_endpoint}?{url_params}")
-        
+
         if response.status_code == 200:
             prediction_result = response.json()["prediction"]
-            st.success(f"### PRICE: {prediction_result}") 
+            st.success(f"### PRICE: {prediction_result}")
         else:
             st.error(f"Error in prediction request. Status Code: {response.status_code}.")
+
 
 if __name__ == "__main__":
     MODEL_ENDPOINT = "https://diamonds-jcvkxdo2ba-lz.a.run.app/diamond_price"
