@@ -8,6 +8,14 @@ from .nodes import evaluate_autogluon, plot_metrics_autogluon
 
 
 def create_pipeline(**kwargs) -> Pipeline:
+    '''
+    Creates model evaluation pipeline
+    Args:
+        **kwargs:
+
+    Returns:
+
+    '''
     return pipeline(
         [
             node(
