@@ -97,3 +97,19 @@ Then run the frontend using:
 ```shell
 streamlit run app.py
 ```
+## Tkinter
+In order to use the frontend first checkout to *Tkinter* branch:
+```shell
+git checkout Tkinter
+```
+Then install the required packages using:
+```shell
+pip install -r requirements.txt
+```
+Then create the executable file using:
+
+```shell
+pyinstaller main.py --onefile --name <name> --noconsole
+```
+
+This will create executable file in directory 'Dist'. To run the app simply go to this file and doubleclick it.
